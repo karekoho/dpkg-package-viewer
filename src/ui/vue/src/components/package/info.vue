@@ -1,6 +1,7 @@
 <script>
-import { mapActions } from 'vuex'
-import { CachedCountry } from '@/models/country'
+// import { mapActions } from 'vuex'
+// import { CachedCountry } from '@/models/country'
+import { SharedPackage } from '../../../src/models/shared-package';
 
 // Display country information
 export default {
@@ -8,17 +9,19 @@ export default {
   props: ['name'],
   data () {
     return {
-      info: null
+      pkg: {
+        name: null,
+        info: null
+      }
     }
   },
   methods: {
-    ...mapActions('country/', {
-      setInfo: 'info'
-    })
+    /* ...mapActions('country/', { setInfo: 'info' }) */
   },
   watch: {
     '$route': function () {
-      const country = new CachedCountry(this.code) // Returns single instance for the country code
+
+      /* const country = new CachedCountry(this.code) // Returns single instance for the country code
       country.data()
         .then((data) => {
           this.info = data
@@ -29,27 +32,24 @@ export default {
           .then((name) => { this.info.capital = name }))
         .catch((error) => {
           console.error(error)
-        })
-    }
+        }) */
+      
+      const pkg = new SharedPackage(this.name);
+      this.pkg.name = pkg.name;
+    } 
   }
 }
 </script>
 
 <template>
-  <div id="country-info">
-    <h3>Country information</h3>
-    <table v-if="info">
+  <div id="package-info">
+    <h3>Package information</h3>
+    <table v-if="pkg">
       <thead>
-        <tr v-if = "info" >
-          <th colspan="2"><h4>{{ info.name }}</h4></th>
+        <tr v-if="pkg" >
+          <th colspan="2"><h4>{{ pkg.name }}</h4></th>
         </tr>
       </thead>
-      <tbody>
-        <tr v-for="(value, key, index) in info" v-bind:key="index">
-          <td class="label">{{ key }}</td>
-          <td class="value">{{ value }}</td>
-        </tr>
-      </tbody>
     </table>
   </div>
 </template>
@@ -58,11 +58,11 @@ export default {
 thead th {
   text-align: left;
 }
-#country-info {
+#package-info {
   width: 70%;
   float: left;
 }
-#country-info .label {
+#package-info .label {
   width: 200px;
 }
 </style>

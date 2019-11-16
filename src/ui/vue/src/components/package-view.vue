@@ -3,7 +3,7 @@
     <div id="header">
       <h1>Status</h1>
     </div>
-    <div id="world">
+    <div id="package-view">
       <package-list />
       <router-view />
     </div>

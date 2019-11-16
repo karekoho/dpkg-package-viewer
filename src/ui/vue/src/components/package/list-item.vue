@@ -1,6 +1,8 @@
 <template>
   <li>
-    <router-link :to="{ name: 'country', params: { code: country.code }}">{{ country.name }}</router-link>
+    <router-link :to="{ name: 'info', params: { code: pkg.name }}">
+      {{ pkg.name }}
+    </router-link>
   </li>
 </template>
 

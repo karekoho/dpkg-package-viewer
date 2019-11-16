@@ -1,30 +1,30 @@
 
-import { SET_INDEX } from '../mutation-types';
-import { SharedPackage } from '../../../models/shared-package';
+import { SET_INDEX } from '../mutation-types'
+import { SharedPackage } from '../../../models/shared-package'
 
 /**
  * @name status
- * @description Explore the contents of /var/lib/dpkg/status 
+ * @description Explore the contents of /var/lib/dpkg/status
  */
 // initial state
 const state = {
   index: null // The package index
-};
+}
 
 // getters
-const getters = {};
+const getters = {}
 
 // mutations
 const mutations = {
   /**
    * Initialize the package index
-   * @param {Object} state 
-   * @param {Map} index 
+   * @param {Object} state
+   * @param {Map} index
    */
   [SET_INDEX] (state, index) {
-    state.index = index;
+    state.index = index
   }
-};
+}
 
 // actions
 const actions = {
@@ -42,12 +42,12 @@ const actions = {
   }, */
 
   index ({ commit }) {
-    let index = new Map();
-    
-    index.set("foo", new SharedPackage ("foo"));
-    index.set("bar", new SharedPackage ("bar"));
+    const index = new Map()
 
-    commit(SET_INDEX, index); 
+    index.set('foo', new SharedPackage('foo'))
+    index.set('bar', new SharedPackage('bar'))
+
+    commit(SET_INDEX, index)
   }
 
   /**
@@ -72,7 +72,7 @@ const actions = {
       .then(response => resolveStatus(response))
       .then(response => response[0])
   } */
-};
+}
 
 export default {
   namespaced: true,
@@ -80,6 +80,6 @@ export default {
   getters,
   mutations,
   actions
-};
+}
 
-export { state, getters, mutations, actions, /* resolveStatus,  WORLD_API_URL */ };
+export { state, getters, mutations, actions /* resolveStatus,  WORLD_API_URL */ }

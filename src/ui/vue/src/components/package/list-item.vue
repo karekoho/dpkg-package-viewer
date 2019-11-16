@@ -1,11 +1,3 @@
-<template>
-  <li>
-    <router-link :to="{ name: 'info', params: { code: pkg.name }}">
-      {{ pkg.name }}
-    </router-link>
-  </li>
-</template>
-
 <script>
 
 export default {
@@ -16,7 +8,15 @@ export default {
     }
   }
 }
+
 </script>
 
-<style>
-</style>
+<template>
+  <li>
+    <router-link :to="{ name: 'package', params: { code: pkg.name }}">
+      {{ pkg.name }}
+    </router-link>
+  </li>
+</template>
+
+<style />

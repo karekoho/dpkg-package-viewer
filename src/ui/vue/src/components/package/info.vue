@@ -1,9 +1,7 @@
 <script>
-// import { mapActions } from 'vuex'
-// import { CachedCountry } from '@/models/country'
-import { SharedPackage } from '../../../src/models/shared-package';
 
-// Display country information
+import { SharedPackage } from '../../../src/models/shared-package'
+
 export default {
   name: 'package-info',
   props: ['name'],
@@ -15,28 +13,11 @@ export default {
       }
     }
   },
-  methods: {
-    /* ...mapActions('country/', { setInfo: 'info' }) */
-  },
   watch: {
-    '$route': function () {
-
-      /* const country = new CachedCountry(this.code) // Returns single instance for the country code
-      country.data()
-        .then((data) => {
-          this.info = data
-          return data
-        })
-        .then((data) => country.capital()
-          .then(capital => capital.name())
-          .then((name) => { this.info.capital = name }))
-        .catch((error) => {
-          console.error(error)
-        }) */
-      
-      const pkg = new SharedPackage(this.name);
-      this.pkg.name = pkg.name;
-    } 
+    $route: function () {
+      const pkg = new SharedPackage(this.name)
+      this.pkg.name = pkg.name
+    }
   }
 }
 </script>

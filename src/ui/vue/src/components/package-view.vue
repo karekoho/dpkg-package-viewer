@@ -1,12 +1,7 @@
 <template>
-  <div id="container">
-    <div id="header">
-      <h1>Status</h1>
-    </div>
-    <div id="package-view">
-      <package-list />
-      <router-view />
-    </div>
+  <div id="package-view">
+    <package-list />
+    <router-view />
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 
 import { SET_INDEX } from '../mutation-types'
-import { SharedPackage } from '../../../models/shared-package'
+import { readIndex } from '../../../common/read-index'
 
 /**
  * @name status
@@ -8,7 +8,8 @@ import { SharedPackage } from '../../../models/shared-package'
  */
 // initial state
 const state = {
-  index: null // The package index
+  packagelist: null, // The package index
+  index: null
 }
 
 // getters
@@ -23,55 +24,25 @@ const mutations = {
    */
   [SET_INDEX] (state, index) {
     state.index = index
+    state.packagelist = Array.from(index.keys())
   }
 }
 
 // actions
 const actions = {
-  /**
-   * Get contents of /var/lib/dpkg/status as a list of packages
-   * @param {Object {Object}} commit
-   * @returns {Promise}
-   *
-  status ({ commit }) {
-    return fetch(WORLD_API_URL + 'countries')
-      .then(response => resolveStatus(response))
-      .then((countries) => {
-        commit(COUNTRY_SET_COUNTRIES, countries)
+  readIndex ({ commit }) {
+    if (state.index) {
+      return state.packagelist
+    }
+    return readIndex('http://localhost:8081')
+      .then(index => {
+        commit(SET_INDEX, index)
+        return state.packagelist
+      }).catch(e => {
+        throw e
       })
-  }, */
-
-  index ({ commit }) {
-    const index = new Map()
-
-    index.set('foo', new SharedPackage('foo'))
-    index.set('bar', new SharedPackage('bar'))
-
-    commit(SET_INDEX, index)
   }
-
-  /**
-   * Get country information
-   * @param {Object} context
-   * @param {String} code
-   * @returns {Promise}
-   *
-  info (context, code) {
-    return fetch(WORLD_API_URL + 'country/' + code)
-      .then(response => resolveStatus(response))
-      .then(response => response[0])
-  }, */
-  /**
-   * Get city information
-   * @param {Object} context
-   * @param {String} id
-   * @returns {Promise}
-   *
-  city (context, id) {
-    return fetch(WORLD_API_URL + 'city/' + id)
-      .then(response => resolveStatus(response))
-      .then(response => response[0])
-  } */
+  // TODO: resetIndex
 }
 
 export default {

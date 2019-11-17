@@ -1,25 +1,27 @@
 <script>
 
-import { mapState, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import PackageListItem from './list-item'
 
 export default {
   name: 'package-list',
   components: { PackageListItem },
-
+  data () {
+    return {
+      packagelist: []
+    }
+  },
   mounted () { // Element mounted
     this.getPackages()
+      .then(packagelist => {
+        this.packagelist = packagelist
+      })
       .catch((error) => {
-        // eslint-disable-next-line
-        console.error(error);
+        console.error(error)
       })
   },
-
-  computed: {
-    ...mapState('status/', { packages: state => state.index })
-  },
   methods: {
-    ...mapActions('status/', { getPackages: 'index' })
+    ...mapActions('status/', { getPackages: 'readIndex' })
   }
   // beforeRouteEnter (to, from, next) { console.log(to, from, next) },
 }
@@ -29,7 +31,7 @@ export default {
   <div id="package-list">
     <h3>Packages</h3>
       <ul>
-        <package-list-item v-for="pkg in packages" :key="pkg.name" v-bind:name="pkg.name" />
+        <package-list-item v-for="pkg in packagelist" :key="pkg" v-bind:name="pkg" />
       </ul>
   </div>
 </template>

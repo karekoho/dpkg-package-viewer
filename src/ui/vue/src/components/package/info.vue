@@ -31,6 +31,13 @@ export default {
           <th colspan="2"><h4>{{ pkg.name }}</h4></th>
         </tr>
       </thead>
+      <tfoot>
+        <tr>
+          <td colspan="2">
+            <router-link to="/">Back to index</router-link>
+          </td>
+        </tr>
+      </tfoot>
     </table>
   </div>
 </template>

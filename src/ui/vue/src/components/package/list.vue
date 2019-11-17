@@ -16,10 +16,10 @@ export default {
   },
 
   computed: {
-    ...mapState('dpkg/', { packages: state => state.index })
+    ...mapState('status/', { packages: state => state.index })
   },
   methods: {
-    ...mapActions('dpkg/', { getPackages: 'index' })
+    ...mapActions('status/', { getPackages: 'index' })
   }
   // beforeRouteEnter (to, from, next) { console.log(to, from, next) },
 }
@@ -29,7 +29,7 @@ export default {
   <div id="package-list">
     <h3>Packages</h3>
       <ul>
-        <package-list-item v-for="pkg in packages" :key="pkg.name" v-bind:package="pkg" />
+        <package-list-item v-for="pkg in packages" :key="pkg.name" v-bind:name="pkg.name" />
       </ul>
   </div>
 </template>

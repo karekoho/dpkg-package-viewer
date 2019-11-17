@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <PackageView />
+    <!-- package-view / -->
+    <router-view />
   </div>
 </template>
 
 <script>
-import PackageView from './components/package-view.vue'
+// import PackageView from './components/package-view.vue'
 
 export default {
-  name: 'app',
-  components: {
-    PackageView
-  }
+  name: 'app'
+  // components: { PackageView }
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div id="package-view">
     <package-list />
-    <router-view />
+    <!-- router-view / -->
   </div>
 </template>
 
@@ -15,7 +15,7 @@ export default {
 </script>
 
 <style scoped>
-#container {
+#package-view {
   padding: 25px 25px 25px 45px;
 }
 </style>

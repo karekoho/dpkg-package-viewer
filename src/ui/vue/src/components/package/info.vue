@@ -1,6 +1,6 @@
 <script>
 
-import { SharedPackage } from '../../../src/models/shared-package'
+import { SharedPackage } from '../../../src/common/shared-package'
 
 export default {
   name: 'package-info',

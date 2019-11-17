@@ -1,6 +1,6 @@
 <script>
 
-import { SharedPackage } from '../../../src/common/shared-package'
+import { Package } from '../../../src/common/package'
 
 export default {
   name: 'package-info',
@@ -15,7 +15,7 @@ export default {
   },
   watch: {
     $route: function () {
-      const pkg = new SharedPackage(this.name)
+      const pkg = new Package(this.name)
       this.pkg.name = pkg.name
     }
   }

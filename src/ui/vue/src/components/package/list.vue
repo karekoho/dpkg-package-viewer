@@ -37,8 +37,4 @@ export default {
 </template>
 
 <style>
-#package-list {
-  width: 30%;
-  float: left;
-}
 </style>

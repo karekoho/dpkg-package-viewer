@@ -2,8 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App.vue'
 import store from './services/dpkg'
-import PackageView from './components/package-view'
-import Info from './components/package/info'
+import PackageView from './components/package/view'
+import PackageInfo from './components/package/info'
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
@@ -18,7 +18,7 @@ const router = new VueRouter({
     {
       path: 'package/:name',
       name: 'package',
-      component: Info,
+      component: PackageInfo,
       props: true
     }
   ]

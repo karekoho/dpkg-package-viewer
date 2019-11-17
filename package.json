@@ -1,0 +1,25 @@
+{
+  "name": "dpkg-package-viewer",
+  "version": "1.0.0",
+  "description": "Explore availlable Debian packages",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "node node_modules/jest/bin/jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karekoho/dpkg-package-viewer.git"
+  },
+  "author": "Kare Koho",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karekoho/dpkg-package-viewer/issues"
+  },
+  "homepage": "https://github.com/karekoho/dpkg-package-viewer#readme",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
+}

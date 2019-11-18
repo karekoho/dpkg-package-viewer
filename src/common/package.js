@@ -4,7 +4,7 @@
 class Package {
   constructor (name, info) {
     this._name = name
-    this._info = {} // TODO: parse info to object
+    this._info = { name: name } // TODO: parse info to object
   }
 
   get name () { return this._name }

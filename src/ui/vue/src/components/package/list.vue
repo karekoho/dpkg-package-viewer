@@ -6,12 +6,8 @@ import PackageListItem from './list-item'
 export default {
   name: 'package-list',
   components: { PackageListItem },
-  data () {
-    return {
-      packagelist: []
-    }
-  },
-  mounted () { // Element mounted
+  data: () => ({ packagelist: [] }),
+  mounted () {
     this.getPackages()
       .then(packagelist => {
         this.packagelist = packagelist
@@ -23,7 +19,6 @@ export default {
   methods: {
     ...mapActions('status/', { getPackages: 'readIndex' })
   }
-  // beforeRouteEnter (to, from, next) { console.log(to, from, next) },
 }
 </script>
 
@@ -36,5 +31,4 @@ export default {
   </div>
 </template>
 
-<style>
-</style>
+<style scoped />

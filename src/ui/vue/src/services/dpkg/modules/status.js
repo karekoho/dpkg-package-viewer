@@ -13,7 +13,9 @@ const state = {
 }
 
 // getters
-const getters = {}
+const getters = {
+  findInfo: state => key => state.index.get(key)
+}
 
 // mutations
 const mutations = {

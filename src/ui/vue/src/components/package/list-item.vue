@@ -15,4 +15,4 @@ export default {
   </li>
 </template>
 
-<style />
+<style scoped />

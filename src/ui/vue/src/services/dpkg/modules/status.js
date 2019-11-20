@@ -26,7 +26,7 @@ const mutations = {
    */
   [SET_INDEX] (state, index) {
     state.index = index
-    state.packagelist = Array.from(index.keys())
+    state.packagelist = Array.from(index.keys()).sort()
   }
 }
 
@@ -55,4 +55,4 @@ export default {
   actions
 }
 
-export { state, getters, mutations, actions /* resolveStatus,  WORLD_API_URL */ }
+export { state, getters, mutations, actions }

@@ -1,3 +1,5 @@
+// const fetch = require('node-fetch'); // Uncomment when running nodejs tests
+
 /**
  *
  * @param {String} entry

@@ -29,7 +29,7 @@ const readInfo = (source, self) =>
 
       if (field[0] === 'Depends') {
         const deps = readDeps(field[1])
-        self._depends = new Set(deps.map(name => new Package(name, null, self)))
+        self._depends = new Set(deps.map(name => (new Package(name, null, self)).name))
       } else if (field[0] === 'Description') {
         self._description = field[1].trimLeft()
       }
@@ -66,7 +66,7 @@ class Package {
       if (!self._revDepends) {
         self._revDepends = new Set()
       }
-      self._revDepends.add(dependent)
+      self._revDepends.add(dependent.name)
     }
 
     if (!cached) {
@@ -117,4 +117,4 @@ class Package {
  */
 Package.instance = new Map()
 
-export { Package }
+module.exports = { Package };

@@ -42,6 +42,13 @@ const readInfo = (source, self) =>
  * The Package class
  */
 class Package {
+  /**
+   * If package with the name already created, return existing instance.
+   * Otherwise return new instance.
+   * @param {String} name Package name
+   * @param {String} source Unparsed package information
+   * @param {Package} dependent A package that depends on this one
+   */
   constructor (name, source, dependent) {
     const cached = Package.instance.has(name)
     const self = cached ? Package.instance.get(name) : this
@@ -53,7 +60,7 @@ class Package {
     if (source && self._isAvailable === undefined) { // Do not parse more than once
       self._name = name
       readInfo(source, self)
-    } else if (dependent) { //
+    } else if (dependent) {
       self._name = name
 
       if (!self._revDepends) {

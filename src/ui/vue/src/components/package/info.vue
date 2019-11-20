@@ -5,7 +5,7 @@ import { Package } from '../../../src/common/package'
 export default {
   name: 'package-info',
   props: ['name'],
-  data: () => ({ info: null }),
+  data: () => ({ package: null }),
   computed: {
     ...mapGetters('status/', ['findInfo'])
   },
@@ -15,15 +15,15 @@ export default {
   methods: {
     getPackage () {
       try {
-        const info = this.findInfo(this.name)
-        if (info) {
-          this.info = (new Package(this.name, info)).info
+        const source = this.findInfo(this.name)
+        if (source) {
+          this.package = new Package(this.name, source)
         } else { // Error happened: bad param, package name not found
-          this.info = null
+          this.package = null
         }
       } catch (e) {
         console.error(e)
-        this.info = null
+        this.package = null
       }
     }
   },
@@ -39,15 +39,15 @@ export default {
 
   <div id="package-info">
     <h3>Package information</h3>
-    <div v-if="info">
+    <div v-if="this.package">
       <!-- h4>{{ info.package }}</h4 -->
       <ul>
         <li>
           <span class="field-name">Package</span>
-          <span> {{ info.package }}</span>
+          <span> {{ this.package.name }}</span>
           <dl>
             <dt><span class="field-name">Description</span></dt>
-            <dd>{{ info.description }}</dd>
+            <dd>{{ this.package.description }}</dd>
           </dl>
         </li>
         <li>

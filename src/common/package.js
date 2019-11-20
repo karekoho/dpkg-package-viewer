@@ -1,14 +1,14 @@
 /**
  *
- * @param {String} nameAndVer
+ * @param {String} nameAndVersion
  */
-const stripVersion = nameAndVer => {
-  const indexEnd = nameAndVer.indexOf('(')
-  return nameAndVer.substring(0, indexEnd < 0 ? nameAndVer.length : indexEnd).trimRight()
+const stripVersion = nameAndVersion => {
+  const indexEnd = nameAndVersion.indexOf('(')
+  return nameAndVersion.substring(0, indexEnd < 0 ? nameAndVersion.length : indexEnd).trimRight()
 }
 
 /**
- * "libc6 (>= 2.14), dpkg (>= 1.15.4) | install-info".split(',').map(a => a.split('|')).map(a => a.map(a => a.trimLeft())).flat()
+ *
  * @param {String} line
  */
 const readDeps = line =>
@@ -20,72 +20,94 @@ const readDeps = line =>
 /**
  *
  * @param {String} source
- * @param {Object} pkgInfo
+ * @param {Package} self
  */
-// eslint-disable-next-line
-const readInfo =  (source, pkgInfo, rdep) =>
+const readInfo = (source, self) =>
   source.split('\n')
-    .reduce((pkgInfo, line) => {
+    .reduce((self, line) => {
       const field = line.split(':')
+
       if (field[0] === 'Depends') {
         const deps = readDeps(field[1])
-        pkgInfo.depends = new Set(deps.map(name => new Package(name, null, rdep)))
+        self._depends = new Set(deps.map(name => new Package(name, null, self)))
       } else if (field[0] === 'Description') {
-        pkgInfo.description = field[1].trimLeft()
+        self._description = field[1].trimLeft()
       }
-      return pkgInfo
-    }, pkgInfo)
+
+      self._isAvailable = true
+      return self
+    }, self)
 
 /**
-  Package: cpio
-  Status: install ok installed
-  Priority: required
-  Section: utils
-  Installed-Size: 328
-  Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-  Architecture: amd64
-  Version: 2.11-7ubuntu3
-  Replaces: cpio-mt
-  Depends: libc6 (>= 2.14), dpkg (>= 1.15.4) | install-info
-  Suggests: libarchive1
-  Conflicts: cpio-mt, mt-st (<< 0.6)
-  Description: GNU cpio -- a program to manage archives of files
-  GNU cpio is a tool for creating and extracting archives, or copying
-  files from one place to another.  It handles a number of cpio formats
-  as well as reading and writing tar files.
-  Homepage: http://www.gnu.org/software/cpio/
-  Original-Maintainer: Ruben Molina <rmolina@udea.edu.co>
+ * The Package class
  */
-class Package { // a
-  constructor (name, source, depObj) {
+class Package {
+  constructor (name, source, dependent) {
     const cached = Package.instance.has(name)
     const self = cached ? Package.instance.get(name) : this
-    if (source) {
-      self.info.package = name
-      console.log(readInfo(source, self.info, self))
-    } else if (depObj) {
-      self.info.package = name
-      self.info.rdepends.add(depObj.info.package)
+
+    if (!name) {
+      throw new Error('Package name not given')
     }
+
+    if (source && self._isAvailable === undefined) { // Do not parse more than once
+      self._name = name
+      readInfo(source, self)
+    } else if (dependent) { //
+      self._name = name
+
+      if (!self._revDepends) {
+        self._revDepends = new Set()
+      }
+      self._revDepends.add(dependent)
+    }
+
     if (!cached) {
       Package.instance.set(name, self)
     }
+
     return self
   }
 
   /**
-   *
+   * @returns Package name
    */
-  get info () {
-    if (!this._info) {
-      this._info = { package: null, depends: null, rdepends: new Set(), description: null }
-    }
-    return this._info
+  get name () {
+    return this._name
   }
 
-  // setrDep (name) { this.info.rdepends.add(name) }
+  /**
+   * @returns Package description
+   */
+  get description () {
+    return this._description || null
+  }
+
+  /**
+   *  @returns Array of package dependencies
+   */
+  get depends () {
+    return this._depends ? Array.from(this._depends.values()) : []
+  }
+
+  /**
+   * @returns Array of package reverse dependencies
+   */
+  get reverseDepends () {
+    return this._revDepends ? Array.from(this._revDepends.values()) : []
+  }
+
+  /**
+   * @returns Package is known by the system, i.e. is listed /var/lib/dpkg/status
+   */
+  get isAvaillable () {
+    return this._isAvailable === true
+  }
 }
 
+/**
+ * Cache instances of Package by name
+ */
 Package.instance = new Map()
 
 export { Package }

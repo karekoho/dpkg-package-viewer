@@ -117,4 +117,4 @@ class Package {
  */
 Package.instance = new Map()
 
-module.exports = { Package };
+module.exports = { Package }

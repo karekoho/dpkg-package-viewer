@@ -1,20 +1,19 @@
 
-import { SET_INDEX } from '../mutation-types'
+import { SET_INDEX, RESET_INDEX } from '../mutation-types'
 import { readIndex } from '../../../common/read-index'
 
 /**
  * @name status
- * @description Explore the contents of /var/lib/dpkg/status
+ * @description
  */
 // initial state
 const state = {
-  packagelist: null, // The package index
-  index: null
+  index: null // List of unique packages, Map<Package>
 }
 
 // getters
 const getters = {
-  findInfo: state => key => state.index.get(key)
+  findInfo: state => key => state.index.get(key) // TODO: remove
 }
 
 // mutations
@@ -26,30 +25,37 @@ const mutations = {
    */
   [SET_INDEX] (state, index) {
     state.index = index
-    state.packagelist = Array.from(index.keys()).sort()
+  },
+  /**
+   * Reset index
+   * @param {Map} index
+   */
+  [RESET_INDEX] ({ index }) {
+    index = null
   }
 }
 
 // actions
 const actions = {
   readIndex ({ commit }) {
+    const sort = index => Array.from(index.keys()).sort()
+
     if (state.index) {
-      return state.packagelist
+      return sort(state.index)
     }
-    return readIndex('http://localhost:8081')
+    return readIndex('http://localhost:8081') // TODO: read from config file of somekind
       .then(index => {
         commit(SET_INDEX, index)
-        return state.packagelist
+        return sort(state.index)
       }).catch(e => {
-        throw e
+        throw e // Actually useless catch
       })
   }
-  // TODO: resetIndex
 }
 
 export default {
   namespaced: true,
-  state, // NOTE: must be exported to mapHelpers to work
+  state,
   getters,
   mutations,
   actions

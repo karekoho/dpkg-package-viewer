@@ -1,20 +1,20 @@
 // const fetch = require('node-fetch'); // Uncomment when running nodejs tests
-
+// TODO: rename dpkg-status
 /**
- *
+ * TODO: rename --> getField
  * @param {String} entry
  */
 const getLine = entry =>
   entry.substring(0, entry.indexOf('\n')).split(':', 2)
 
 /**
- *
+ * TODO: rename --> getFieldValue
  * @param {String} line
  */
 const getInfo = line => line.length > 1 ? line[1].trimLeft() : ''
 
 /**
- *
+ *  TODO: rename --> mapIndex
  * @param {String} packageList
  */
 const doNameMap = packageList =>
@@ -23,7 +23,7 @@ const doNameMap = packageList =>
   }, new Map())
 
 /**
- *
+ * TODO: rename --> readStatus
  * @param {String} path
  */
 const readIndex = path =>

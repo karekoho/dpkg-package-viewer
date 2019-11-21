@@ -1,42 +1,44 @@
 /**
- *
+ * TODO: move to read-index (dpkg-status)
+ * Remove version number from the package name
  * @param {String} nameAndVersion
  */
 const stripVersion = nameAndVersion => {
   const indexEnd = nameAndVersion.indexOf('(')
-  return nameAndVersion.substring(0, indexEnd < 0 ? nameAndVersion.length : indexEnd).trimRight()
+  return nameAndVersion.substring(0, indexEnd < 0 ? nameAndVersion.length : indexEnd - 1)
 }
 
 /**
- *
- * @param {String} line
+ * TODO: move to read-index (dpkg-status)
+ * Parse dependencies field
+ * @param {String} field
  */
-const readDeps = line =>
-  line.split(',')
+const readDependencies = field =>
+  field.split(',')
     .map(a => a.split('|'))
-    .map(a => a.map(a => stripVersion(a).trimLeft()))
+    .map(a => a.map(a => stripVersion(a).substring(1)))
     .flat()
 
 /**
- *
+ * Map information fields to a Package object
  * @param {String} source
- * @param {Package} self
+ * @param {Package} pkg
  */
-const readInfo = (source, self) =>
+const mapFields = (source, pkg) =>
   source.split('\n')
     .reduce((self, line) => {
       const field = line.split(':')
 
       if (field[0] === 'Depends') {
-        const deps = readDeps(field[1])
+        const deps = readDependencies(field[1])
         self._depends = new Set(deps.map(name => (new Package(name, null, self)).name))
       } else if (field[0] === 'Description') {
-        self._description = field[1].trimLeft()
+        self._description = field[1].substring(1)
       }
 
       self._isAvailable = true
       return self
-    }, self)
+    }, pkg)
 
 /**
  * The Package class
@@ -59,7 +61,7 @@ class Package {
 
     if (source && self._isAvailable === undefined) { // Do not parse more than once
       self._name = name
-      readInfo(source, self)
+      mapFields(source, self)
     } else if (dependent) {
       self._name = name
 
@@ -94,14 +96,14 @@ class Package {
    *  @returns Array of package dependencies
    */
   get depends () {
-    return this._depends ? Array.from(this._depends.values()) : []
+    return this._depends ? Array.from(this._depends.values()).sort() : []
   }
 
   /**
    * @returns Array of package reverse dependencies
    */
   get reverseDepends () {
-    return this._revDepends ? Array.from(this._revDepends.values()) : []
+    return this._revDepends ? Array.from(this._revDepends.values()).sort() : []
   }
 
   /**

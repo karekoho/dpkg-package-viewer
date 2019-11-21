@@ -1,6 +1,6 @@
 
 import { SET_INDEX, RESET_INDEX } from '../mutation-types'
-import { readIndex } from '../../../common/read-index'
+import { readStatus } from '../../../common/dpkg-status'
 
 /**
  * @name status
@@ -43,7 +43,7 @@ const actions = {
     if (state.index) {
       return sort(state.index)
     }
-    return readIndex('http://localhost:8081') // TODO: read from config file of somekind
+    return readStatus('http://localhost:8081') // TODO: read from config file of somekind
       .then(index => {
         commit(SET_INDEX, index)
         return sort(state.index)

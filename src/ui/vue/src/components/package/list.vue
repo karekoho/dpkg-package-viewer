@@ -1,11 +1,9 @@
 <script>
 
 import { mapActions } from 'vuex'
-import PackageListItem from './list-item'
 
 export default {
   name: 'package-list',
-  components: { PackageListItem },
   data: () => ({ packagelist: [] }),
   mounted () {
     this.getPackages()
@@ -26,7 +24,11 @@ export default {
   <div id="package-list">
     <h3>Packages</h3>
       <ul>
-        <package-list-item v-for="pkg in packagelist" :key="pkg" v-bind:name="pkg" />
+        <li v-for="name in packagelist" :key="name" v-bind:name="name">
+          <router-link :to="{ name: 'package', params: { name }}">
+            {{ name }}
+          </router-link>
+          </li>
       </ul>
   </div>
 </template>

@@ -12,9 +12,7 @@ const state = {
 }
 
 // getters
-const getters = {
-  findInfo: state => key => state.index.get(key) // TODO: remove
-}
+const getters = {}
 
 // mutations
 const mutations = {

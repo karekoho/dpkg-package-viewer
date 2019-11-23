@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "node node_modules/jest/bin/jest",
-    "file-server": "node src/common/file-server"
+    "server": "node src/common/file-server",
+    "watch": "nodemon src/common/file-server"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,8 @@
   },
   "homepage": "https://github.com/karekoho/dpkg-package-viewer#readme",
   "devDependencies": {
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "nodemon": "^2.0.1"
   },
   "dependencies": {
     "cors": "^2.8.5",

@@ -5,14 +5,27 @@ const cors = require('cors');
 
 app.use(cors());
 
-app.get('/', function (request, response) {
-  response.send(fs.readFileSync('./doc/status.real.txt', 'utf-8'));
+const path = './doc/status.real.txt';
+
+app.get('/', (request, response) => {
+  let data = '';
+  const  readStream = fs.createReadStream(path, { encoding: 'utf8' });
+
+  readStream.on('data', (chunk) => {
+    data += chunk;
+  }).on('end', () => {
+    response.set('Content-Type', 'text/plain; charset=utf-8');
+    response.send(data);
+  }).on('error', (err) => {
+    response.set('Content-Type', 'application/json; charset=utf-8');
+    response.status(404).end()
+    console.error(err)
+  })
 });
 
 const port = process.argv.length > 2 ? process.argv[2] : 8081;
 
-const server = app.listen(port, function () {
-   const host = server.address().address
+const server = app.listen(port, () => {
    const port = server.address().port
-   console.log("File server listening on http://%s:%s", host, port)
+   console.log("File server listening on http://localhost:%s", port)
 })

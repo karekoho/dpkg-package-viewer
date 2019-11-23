@@ -45,8 +45,8 @@ const actions = {
       .then(index => {
         commit(SET_INDEX, index)
         return sort(state.index)
-      }).catch(e => {
-        throw e // Actually useless catch
+      }).catch(error => {
+        throw error // Actually useless catch
       })
   }
 }

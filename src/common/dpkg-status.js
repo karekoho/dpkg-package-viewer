@@ -40,6 +40,20 @@ const createIndex = status =>
   }, new Map())
 
 /**
+ *
+ * @param {Response} res
+ * @returns {Promise}
+ * @throws {Error}
+ */
+const resolveStatus = response => {
+  if (response.ok) {
+    return response.text()
+  }
+
+  throw new Error(response.statusText)
+}
+
+/**
  * Read package status, e.g. /var/lib/dpkg/status
  * @param {String} path
  * @returns {Promise}
@@ -47,7 +61,7 @@ const createIndex = status =>
 const readStatus = path =>
   new Promise((resolve, reject) => {
     fetch(path)
-      .then(response => response.text())
+      .then(response => resolveStatus(response))
       .then(text => resolve(createIndex(text)))
       .catch(e => reject(e))
   })

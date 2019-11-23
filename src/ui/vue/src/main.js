@@ -2,8 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App.vue'
 import store from './services/dpkg'
-import PackageView from './components/package/view'
-import PackageInfo from './components/package/info'
+import PackageView from './components/package/package-view'
+import PackageInfo from './components/package/package-info'
 import NotFound from './components/common/not-found'
 
 Vue.config.productionTip = false
@@ -33,4 +33,4 @@ new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#dpkg-viewer')

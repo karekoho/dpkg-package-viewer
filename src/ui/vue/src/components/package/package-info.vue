@@ -1,10 +1,11 @@
 <script>
 import { Package } from '../../../src/common/package'
-import PackageDependency from './dependency'
+import PackageDependency from './package-dependency'
+import IndexLink from '../common/index-link'
 
 export default {
   name: 'package-info',
-  components: { PackageDependency },
+  components: { PackageDependency, IndexLink },
   props: {
     name: String
   },
@@ -66,7 +67,7 @@ export default {
       Oops, error happened!
     </div>
 
-    <router-link :to="{ name: 'index' }">Back to index</router-link>
+    <index-link />
 
   </div>
 

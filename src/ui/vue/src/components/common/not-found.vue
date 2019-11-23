@@ -1,11 +1,15 @@
 <script>
-export default { name: 'not-found' }
+import IndexLink from './index-link'
+export default {
+  name: 'not-found',
+  components: { IndexLink }
+}
 </script>
 
 <template>
   <div id="not-found">
     <h3>Page not found</h3>
-    <router-link :to="{ name: 'index' }">Back to index</router-link>
+    <index-link />
   </div>
 </template>
 

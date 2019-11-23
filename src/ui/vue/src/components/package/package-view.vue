@@ -1,5 +1,5 @@
 <script>
-import PackageList from './list'
+import PackageList from './package-list'
 
 export default {
   name: 'package-view',

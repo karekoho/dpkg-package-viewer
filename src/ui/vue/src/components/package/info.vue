@@ -1,37 +1,24 @@
 <script>
-import { mapGetters } from 'vuex'
 import { Package } from '../../../src/common/package'
 
 export default {
   name: 'package-info',
   props: ['name'],
   data: () => ({ package: null }),
-  computed: {
-    ...mapGetters('status/', ['findInfo'])
-  },
   mounted () {
     this.getPackage()
   },
   methods: {
     getPackage () {
       try {
-        const source = this.findInfo(this.name)
-        if (source) {
-          this.package = new Package(this.name, source)
-        } else { // Error happened: bad param, package name not found
-          this.package = null
-        }
+        this.package = new Package(this.name)
       } catch (e) {
         console.error(e)
         this.package = null
       }
     }
-  },
-  watch: {
-    $route: function (to, from) {
-      console.log(to, from)
-    }
   }
+  /* watch: { $route: function (to, from) {} } */
 }
 </script>
 

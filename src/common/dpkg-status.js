@@ -1,4 +1,5 @@
 // const fetch = require('node-fetch'); // NOTE: Uncomment when running nodejs tests
+const { Package } = require('./package')
 
 /**
  * Get single field from package source
@@ -24,7 +25,12 @@ const getFieldValue = line => line.length > 1 ? line[1].substring(1) : ''
 const createIndex = status =>
   status.split('\n\n').reduce((pkgMap, pkgFields) => {
     try {
-      return pkgFields ? pkgMap.set(getFieldValue(getField(pkgFields)), pkgFields) : pkgMap
+      if (!pkgFields) {
+        return pkgMap
+      }
+
+      const name = getFieldValue(getField(pkgFields))
+      return pkgMap.set(name, new Package(name, pkgFields))
     } catch (e) { // Dismiss any errors when parsing package fields
       console.error(e)
       return pkgMap

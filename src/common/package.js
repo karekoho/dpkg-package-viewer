@@ -1,5 +1,5 @@
 /**
- * TODO: move to read-index (dpkg-status)
+ * TODO: move to package-field
  * Remove version number from the package name
  * @param {String} nameAndVersion
  */
@@ -9,7 +9,7 @@ const stripVersion = nameAndVersion => {
 }
 
 /**
- * TODO: move to read-index (dpkg-status)
+ * TODO: move to package-field
  * Parse dependencies field
  * @param {String} field
  */
@@ -36,7 +36,7 @@ const mapFields = (source, pkg) =>
         self._description = field[1].substring(1)
       }
 
-      self._isAvailable = true
+      self._isAvailable = true // Package is parsed from source text, so it is availlable
       return self
     }, pkg)
 
@@ -52,8 +52,8 @@ class Package {
    * @param {Package} dependent A package that depends on this one
    */
   constructor (name, source, dependent) {
-    const cached = Package.instance.has(name)
-    const self = cached ? Package.instance.get(name) : this
+    const isCached = Package.instance.has(name)
+    const self = isCached ? Package.instance.get(name) : this
 
     if (!name) {
       throw new Error('Package name not given')
@@ -71,7 +71,7 @@ class Package {
       self._revDepends.add(dependent.name)
     }
 
-    if (!cached) {
+    if (!isCached && (self._isAvailable || dependent instanceof Package)) { // Do not put whatever packages
       Package.instance.set(name, self)
     }
 

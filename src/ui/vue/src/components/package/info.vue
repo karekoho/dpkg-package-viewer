@@ -1,24 +1,30 @@
 <script>
 import { Package } from '../../../src/common/package'
+import PackageDependency from './dependency'
 
 export default {
   name: 'package-info',
-  props: ['name'],
+  components: { PackageDependency },
+  props: {
+    name: String
+  },
   data: () => ({ package: null }),
   mounted () {
-    this.getPackage()
+    this.getPackage(this.name)
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.getPackage(to.params.name)
+    next()
   },
   methods: {
-    getPackage () {
+    getPackage (name) {
       try {
-        this.package = new Package(this.name)
+        this.package = new Package(name)
       } catch (e) {
         console.error(e)
-        this.package = null
       }
     }
   }
-  /* watch: { $route: function (to, from) {} } */
 }
 </script>
 
@@ -27,7 +33,6 @@ export default {
   <div id="package-info">
     <h3>Package information</h3>
     <div v-if="this.package">
-      <!-- h4>{{ info.package }}</h4 -->
       <ul>
         <li>
           <span class="field-name">Package</span>
@@ -37,15 +42,20 @@ export default {
             <dd>{{ this.package.description }}</dd>
           </dl>
         </li>
-        <li>
+        <li v-if="this.package.depends.length">
           <span class="field-name">
             Depends
           </span>
           <ul>
-            <li>1</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
+            <package-dependency v-for="name in this.package.depends" :key="name" v-bind:name="name" />
+          </ul>
+        </li>
+        <li v-if="this.package.reverseDepends.length">
+          <span class="field-name">
+            Reverse depends
+          </span>
+          <ul>
+            <package-dependency v-for="name in this.package.reverseDepends" :key="name" v-bind:name="name" />
           </ul>
         </li>
       </ul>

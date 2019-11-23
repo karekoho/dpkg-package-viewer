@@ -1,7 +1,8 @@
-// const fetch = require('node-fetch'); // NOTE: Uncomment when running nodejs tests
+// const fetch = require('node-fetch') // NOTE: Uncomment when running nodejs tests
 const { Package } = require('./package')
 
 /**
+ * TODO: move to package-field
  * Get single field from package source
  * @param {String} lines
  * @param {Number} offset
@@ -11,8 +12,9 @@ const getField = (lines, offset = 0) =>
   lines.substring(offset, lines.indexOf('\n')).split(':', 2)
 
 /**
+ * TODO: move to package-field
  * Get the field content with trailing space removed
- * @param {String} line
+ * @param {Array} line
  * @returns {String}
  */
 const getFieldValue = line => line.length > 1 ? line[1].substring(1) : ''
@@ -25,7 +27,7 @@ const getFieldValue = line => line.length > 1 ? line[1].substring(1) : ''
 const createIndex = status =>
   status.split('\n\n').reduce((pkgMap, pkgFields) => {
     try {
-      if (!pkgFields) {
+      if (!pkgFields) { // Skip empty entry
         return pkgMap
       }
 

@@ -1,23 +1,28 @@
-FROM node:12
-
-# install simple http server for serving static content
-RUN npm install -g http-server
-
-# make the 'app' folder the current working directory
-# WORKDIR /app
-WORKDIR /
-
-# copy both 'package.json' and 'package-lock.json' (if available)
-COPY package*.json ./
-
-# install project dependencies leaving out dev dependencies
-RUN npm install --production
-
-# copy project files and folders to the current working directory (i.e. 'app' folder)
-COPY . .
-
-# build app for production with minification
+# build stage
+FROM node:lts-alpine as build-stage
+WORKDIR /app
+# WORKDIR /usr/src/dpkg-viewer/client
+# COPY package*.json ./
+# RUN npm install
+# COPY .eslint* ./
+# COPY vue.config.js .
+# COPY src ./src/
+# COPY public ./public/
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json /app/package.json
+RUN npm install --silent
+# RUN npm install @vue/cli@3.7.0 -g
+#RUN npm install vue-template-compiler
+RUN npm install @vue/cli @vue/cli-service @vue/cli-plugin-babel @vue/cli-plugin-eslint -g
+RUN npm install vue-template-compiler postcss-cli autoprefixer
+COPY . /app
 RUN npm run build
 
+# production stage
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx/nginx.conf /etc/nginx/conf.d
+#COPY --from=build-stage /usr/src/dpkg-viewer/client/dist /usr/share/nginx/html
 EXPOSE 8080
-CMD [ "http-server", "dist" ]
+CMD ["nginx", "-g", "daemon off;"]

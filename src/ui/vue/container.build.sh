@@ -1,1 +1,1 @@
-docker build -t dpkg-viewer karek/dpkg-viewer .
+./copy_common_src.sh && docker build -t karek/dpkg-viewer-client .

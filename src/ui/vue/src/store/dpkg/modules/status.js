@@ -1,6 +1,8 @@
 
-import { SET_INDEX, RESET_INDEX } from '../mutation-types'
 import { readStatus } from '../../../common/dpkg-status'
+
+export const SET_INDEX = '0'
+export const RESET_INDEX = '1'
 
 /**
  * @name status

@@ -119,4 +119,4 @@ class Package {
  */
 Package.instance = new Map()
 
-module.exports = { Package }
+export { Package }

@@ -66,4 +66,4 @@ const readStatus = path =>
       .catch(e => reject(e))
   })
 
-module.exports = { getField, getFieldValue, createIndex, readStatus }
+export { getField, getFieldValue, createIndex, readStatus }

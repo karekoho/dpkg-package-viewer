@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/karekoho/dpkg-package-viewer#readme",
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.7.4",
     "jest": "^24.9.0",
     "nodemon": "^2.0.1"
   },

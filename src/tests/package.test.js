@@ -1,4 +1,4 @@
- const { Package } = require('../common/package');
+const { Package } = require('../common/package');
 
 test ('Package: dependency and reverse dependency', () => {
   const input = [

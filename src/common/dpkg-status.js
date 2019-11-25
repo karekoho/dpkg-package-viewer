@@ -1,4 +1,4 @@
-// const fetch = require('node-fetch') // NOTE: Uncomment when running nodejs tests
+const fetch = require('node-fetch') // NOTE: Uncomment when running nodejs tests
 const { Package } = require('./package')
 
 /**

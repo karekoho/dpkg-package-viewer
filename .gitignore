@@ -4,3 +4,4 @@ src/ui/vue/src/common_link
 .DS_Store
 *.code-workspace
 package-lock.json
+src/ui/vue/repo_link

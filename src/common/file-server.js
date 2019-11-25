@@ -5,11 +5,12 @@ const cors = require('cors');
 
 app.use(cors());
 
-const path = './doc/status.real.txt';
+// const path = './doc/status.real.txt';
+const path = '/var/lib/dpkg/status';
 
 app.get('/', (request, response) => {
   let data = '';
-  const  readStream = fs.createReadStream(path, { encoding: 'utf8' });
+  const readStream = fs.createReadStream(path, { encoding: 'utf8' });
 
   readStream.on('data', (chunk) => {
     data += chunk;

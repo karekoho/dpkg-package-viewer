@@ -109,7 +109,7 @@ class Package {
   /**
    * @returns Package is known by the system, i.e. is listed /var/lib/dpkg/status
    */
-  get isAvaillable () {
+  get isAvailable () {
     return this._isAvailable === true
   }
 }

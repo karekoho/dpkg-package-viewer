@@ -3,10 +3,11 @@ import { mapState, mapActions } from 'vuex'
 import { Package } from '../../../src/common/package'
 import PackageDependency from './package-dependency'
 import IndexLink from '../common/index-link'
+import Error from '../common/error'
 
 export default {
   name: 'package-info',
-  components: { PackageDependency, IndexLink },
+  components: { PackageDependency, IndexLink, Error },
   props: {
     name: String
   },
@@ -32,7 +33,7 @@ export default {
       try {
         if (this.indexSize > 0) {
           this.package = new Package(name)
-        } else {
+        } else { // Page refresh or url followed --> store is empty
           this.getPackages().then(() => { this.package = new Package(name) })
         }
       } catch (error) {
@@ -48,8 +49,8 @@ export default {
 
   <div id="package-info">
     <div v-if="this.package">
+      <h3>Package information</h3>
       <div v-if="this.package.isAvailable">
-        <h3>Package information</h3>
         <ul>
           <li>
             <span class="field-name">Package</span>
@@ -77,27 +78,22 @@ export default {
           </li>
         </ul>
       </div>
-      <h3 v-else>
-        Package not found
-      </h3>
+      <div v-else>
+        <ul>
+          <li>
+            <span class="field-name">Not available</span>
+          </li>
+        </ul>
+      </div>
     </div>
-
-    <div id="error" v-else-if="error">
-      <h3>Error</h3>
-      <span>{{ error.message }}</span>
-    </div>
-
+    <error v-else-if="this.error" v-bind:error="this.error" />
     <index-link />
-
   </div>
 
 </template>
 
 <style scoped>
-  div#error {
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
+  ul li span.field-name {
+    font-weight: bold
   }
 </style>

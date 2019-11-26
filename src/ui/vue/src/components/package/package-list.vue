@@ -1,15 +1,21 @@
 <script>
 import { mapState, mapActions } from 'vuex'
+import Error from '../common/error'
 
 export default {
   name: 'package-list',
-  data: () => ({ packagelist: [] }),
+  components: { Error },
+  data: () => ({
+    packagelist: [],
+    error: null
+  }),
   created () {
     this.getPackages()
       .then(packagelist => {
         this.packagelist = packagelist
       })
       .catch((error) => {
+        this.error = error
         console.error(error)
       })
   },
@@ -26,7 +32,9 @@ export default {
 
 <template>
   <div id="package-list">
-    <h3><span>{{ this.indexSize }}</span> packages</h3>
+    <error v-if="this.error" v-bind:error="this.error" />
+    <div v-else>
+      <h3><span>{{ this.indexSize }}</span> packages</h3>
       <ul>
         <li v-for="name in packagelist" :key="name" v-bind:name="name">
           <router-link :to="{ name: 'package', params: { name }}">
@@ -34,7 +42,6 @@ export default {
           </router-link>
           </li>
       </ul>
+    </div>
   </div>
 </template>
-
-<style scoped />

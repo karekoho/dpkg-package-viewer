@@ -21,7 +21,7 @@ export default {
 
 <template>
   <li v-if="this.package">
-    <router-link v-if="this.package.isAvaillable" :to="{ name: 'package', params: { name: this.package.name }}">
+    <router-link v-if="this.package.isAvailable" :to="{ name: 'package', params: { name: this.package.name }}">
       {{ this.package.name }}
     </router-link>
     <span v-else>

@@ -10,7 +10,10 @@ export default {
   props: {
     name: String
   },
-  data: () => ({ package: null }),
+  data: () => ({
+    package: null,
+    error: null
+  }),
   mounted () {
     this.getPackage(this.name)
   },
@@ -32,8 +35,9 @@ export default {
         } else {
           this.getPackages().then(() => { this.package = new Package(name) })
         }
-      } catch (e) {
-        console.error(e)
+      } catch (error) {
+        this.error = error
+        console.error(error)
       }
     }
   }
@@ -43,39 +47,44 @@ export default {
 <template>
 
   <div id="package-info">
-    <h3>Package information</h3>
     <div v-if="this.package">
-      <ul>
-        <li>
-          <span class="field-name">Package</span>
-          <span> {{ this.package.name }}</span>
-          <dl>
-            <dt><span class="field-name">Description</span></dt>
-            <dd>{{ this.package.description }}</dd>
-          </dl>
-        </li>
-        <li v-if="this.package.depends.length">
-          <span class="field-name">
-            Depends
-          </span>
-          <ul>
-            <package-dependency v-for="name in this.package.depends" :key="name" v-bind:name="name" />
-          </ul>
-        </li>
-        <li v-if="this.package.reverseDepends.length">
-          <span class="field-name">
-            Reverse depends
-          </span>
-          <ul>
-            <package-dependency v-for="name in this.package.reverseDepends" :key="name" v-bind:name="name" />
-          </ul>
-        </li>
-      </ul>
-
+      <div v-if="this.package.isAvailable">
+        <h3>Package information</h3>
+        <ul>
+          <li>
+            <span class="field-name">Package</span>
+            <span> {{ this.package.name }}</span>
+            <dl>
+              <dt><span class="field-name">Description</span></dt>
+              <dd>{{ this.package.description }}</dd>
+            </dl>
+          </li>
+          <li v-if="this.package.depends.length">
+            <span class="field-name">
+              Depends
+            </span>
+            <ul>
+              <package-dependency v-for="name in this.package.depends" :key="name" v-bind:name="name" />
+            </ul>
+          </li>
+          <li v-if="this.package.reverseDepends.length">
+            <span class="field-name">
+              Reverse depends
+            </span>
+            <ul>
+              <package-dependency v-for="name in this.package.reverseDepends" :key="name" v-bind:name="name" />
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <h3 v-else>
+        Package not found
+      </h3>
     </div>
 
-    <div v-else>
-      Oops, error happened!
+    <div id="error" v-else-if="error">
+      <h3>Error</h3>
+      <span>{{ error.message }}</span>
     </div>
 
     <index-link />
@@ -85,7 +94,10 @@ export default {
 </template>
 
 <style scoped>
-  div#package-info span.field-name {
-    font-weight: bold
+  div#error {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
   }
 </style>

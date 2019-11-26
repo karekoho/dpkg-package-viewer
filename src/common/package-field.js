@@ -31,6 +31,5 @@ const readDependencies = field =>
   field.split(',')
     .map(a => a.split('|'))
     .map(a => a.map(a => stripVersion(a).substring(1)))
-    .flat()
 
 export { getField, getFieldValue, stripVersion, readDependencies }

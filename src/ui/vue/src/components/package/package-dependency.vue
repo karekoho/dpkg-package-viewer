@@ -5,12 +5,18 @@ import { Package } from '../../../src/common/package'
 export default {
   name: 'package-dependency',
   props: {
+    namelist: Array,
     name: String
   },
-  data: () => ({ package: null }),
+  data: () => ({ package: null, pkglist: null, lastIndex: 0 }),
   mounted () {
     try {
-      this.package = new Package(this.name)
+      if (this.namelist) {
+        this.pkglist = this.namelist.map(name => new Package(name))
+        this.lastIndex = this.namelist.length - 1
+      } else if (this.name) {
+        this.package = new Package(this.name)
+      }
     } catch (e) {
       console.error(e)
     }
@@ -20,7 +26,19 @@ export default {
 </script>
 
 <template>
-  <li v-if="this.package">
+  <div>
+  <li v-if="this.pkglist">
+    <span v-for="(pkg, index) in this.pkglist" :key="pkg.name">
+      <router-link v-if="pkg.isAvailable" :to="{ name: 'package', params: { name: pkg.name }}">
+        {{ pkg.name }}
+      </router-link>
+      <span v-else>
+        {{ pkg.name }}
+      </span>
+      <span v-if="index < lastIndex"> | </span>
+    </span>
+  </li>
+  <li v-else-if="this.package">
     <router-link v-if="this.package.isAvailable" :to="{ name: 'package', params: { name: this.package.name }}">
       {{ this.package.name }}
     </router-link>
@@ -28,6 +46,5 @@ export default {
       {{ this.package.name }}
     </span>
   </li>
+  </div>
 </template>
-
-<style scoped />

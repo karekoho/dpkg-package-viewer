@@ -12,7 +12,8 @@ const mapFields = (source, pkg) =>
 
       if (field[0] === 'Depends') {
         const deps = readDependencies(field[1])
-        self._depends = new Set(deps.map(name => (new Package(name, null, self)).name))
+        self._dependencyList = deps
+        self._depends = new Set(deps.flat().map(name => (new Package(name, null, self)).name))
       } else if (field[0] === 'Description') {
         self._description = field[1].substring(1)
       }
@@ -78,6 +79,13 @@ class Package {
    */
   get depends () {
     return this._depends ? Array.from(this._depends.values()).sort() : []
+  }
+
+  /**
+   * @returns Array<Array> of package dependencies with alternatives
+   */
+  get dependencyList () {
+    return this._dependencyList ? this._dependencyList : [[]]
   }
 
   /**

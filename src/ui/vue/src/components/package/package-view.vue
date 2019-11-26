@@ -1,26 +1,9 @@
 <script>
 import PackageList from './package-list'
 
-const onUnload = (event) => {
-  console.log(event)
-}
-
 export default {
   name: 'package-view',
-  components: { PackageList },
-  methods: {
-    onUnload (event) {
-      console.log(event)
-      this.$router.push('/')
-    },
-    removeListener () {}
-  },
-  mounted () {
-    window.addEventListener('unload', onUnload)
-  },
-  beforeDestroy () {
-    window.removeEventListener('unload', onUnload)
-  }
+  components: { PackageList }
 }
 </script>
 

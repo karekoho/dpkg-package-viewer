@@ -1,11 +1,10 @@
 <script>
-
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'package-list',
   data: () => ({ packagelist: [] }),
-  mounted () {
+  created () {
     this.getPackages()
       .then(packagelist => {
         this.packagelist = packagelist
@@ -13,6 +12,11 @@ export default {
       .catch((error) => {
         console.error(error)
       })
+  },
+  computed: {
+    ...mapState('dpkg/status/', {
+      indexSize: state => state.index.size
+    })
   },
   methods: {
     ...mapActions('dpkg/status/', { getPackages: 'readIndex' })
@@ -22,7 +26,7 @@ export default {
 
 <template>
   <div id="package-list">
-    <h3>Packages</h3>
+    <h3><span>{{ this.indexSize }}</span> packages</h3>
       <ul>
         <li v-for="name in packagelist" :key="name" v-bind:name="name">
           <router-link :to="{ name: 'package', params: { name }}">

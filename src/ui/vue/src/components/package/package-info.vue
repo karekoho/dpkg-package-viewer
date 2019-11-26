@@ -30,10 +30,6 @@ export default {
         if (this.indexSize > 0) {
           this.package = new Package(name)
         } else {
-          // There are no packages,
-          // or user has refreshed browser,
-          // or follewed url, so the store is empty.
-          // Must load packages to store first.
           this.getPackages().then(() => { this.package = new Package(name) })
         }
       } catch (e) {

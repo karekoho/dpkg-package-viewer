@@ -7,14 +7,14 @@ Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
+  strict: debug,
+  // state: {},
+  // mutations: {},
+  // actions: {},
   modules: {
-    status
-  },
-  strict: debug
+    dpkg: {
+      namespaced: true,
+      modules: { status }
+    }
+  }
 })

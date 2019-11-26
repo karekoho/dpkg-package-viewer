@@ -1,4 +1,5 @@
 <script>
+import { mapState, mapActions } from 'vuex'
 import { Package } from '../../../src/common/package'
 import PackageDependency from './package-dependency'
 import IndexLink from '../common/index-link'
@@ -17,10 +18,24 @@ export default {
     this.getPackage(to.params.name)
     next()
   },
+  computed: {
+    ...mapState('dpkg/status/', {
+      indexSize: state => state.index.size
+    })
+  },
   methods: {
+    ...mapActions('dpkg/status/', { getPackages: 'readIndex' }),
     getPackage (name) {
       try {
-        this.package = new Package(name)
+        if (this.indexSize > 0) {
+          this.package = new Package(name)
+        } else {
+          // There are no packages,
+          // or user has refreshed browser,
+          // or follewed url, so the store is empty.
+          // Must load packages to store first.
+          this.getPackages().then(() => { this.package = new Package(name) })
+        }
       } catch (e) {
         console.error(e)
       }

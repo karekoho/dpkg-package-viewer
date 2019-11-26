@@ -10,7 +10,7 @@ export const RESET_INDEX = '1'
  */
 // initial state
 const state = {
-  index: null // List of unique packages, Map<Package>
+  index: new Map() // List of unique packages, Map<Package>
 }
 
 // getters
@@ -31,7 +31,7 @@ const mutations = {
    * @param {Map} index
    */
   [RESET_INDEX] ({ index }) {
-    index = null
+    index = new Map()
   }
 }
 
@@ -40,7 +40,7 @@ const actions = {
   readIndex ({ commit }) {
     const sort = index => Array.from(index.keys()).sort()
 
-    if (state.index) {
+    if (state.index.size > 0) {
       return sort(state.index)
     }
     return readStatus('http://localhost:8081') // TODO: read from config file of somekind

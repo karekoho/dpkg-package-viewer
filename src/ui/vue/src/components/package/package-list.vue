@@ -15,7 +15,7 @@ export default {
       })
   },
   methods: {
-    ...mapActions('status/', { getPackages: 'readIndex' })
+    ...mapActions('dpkg/status/', { getPackages: 'readIndex' })
   }
 }
 </script>

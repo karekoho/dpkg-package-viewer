@@ -1,23 +1,4 @@
-/**
- * TODO: move to package-field
- * Remove version number from the package name
- * @param {String} nameAndVersion
- */
-const stripVersion = nameAndVersion => {
-  const indexEnd = nameAndVersion.indexOf('(')
-  return nameAndVersion.substring(0, indexEnd < 0 ? nameAndVersion.length : indexEnd - 1)
-}
-
-/**
- * TODO: move to package-field
- * Parse dependencies field
- * @param {String} field
- */
-const readDependencies = field =>
-  field.split(',')
-    .map(a => a.split('|'))
-    .map(a => a.map(a => stripVersion(a).substring(1)))
-    .flat()
+import { readDependencies } from './package-field'
 
 /**
  * Map information fields to a Package object

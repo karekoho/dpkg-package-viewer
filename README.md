@@ -17,8 +17,11 @@ docker-compose up -d
 ```
 This pulls down two images from Docker Hub and starts the containers.
 
+
 Client is listening on http://localhost:8080
+
 Server is listening on http://localhost:8081
+
 
 Run command
 ```

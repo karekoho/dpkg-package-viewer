@@ -2,12 +2,13 @@
 import { mapState, mapActions } from 'vuex'
 import { Package } from '../../../src/common/package'
 import PackageDependency from './package-dependency'
+import PackageReverseDependency from './package-reverse-dependency'
 import IndexLink from '../common/index-link'
 import Error from '../common/error'
 
 export default {
   name: 'package-info',
-  components: { PackageDependency, IndexLink, Error },
+  components: { PackageDependency, PackageReverseDependency, IndexLink, Error },
   props: {
     name: String
   },
@@ -65,7 +66,7 @@ export default {
               Depends
             </span>
             <ul>
-              <package-dependency v-for="namelist in this.package.dependencyList" :key="namelist[0]" v-bind:namelist="namelist" />
+              <package-dependency v-for="(namelist, index) in this.package.dependencyList" :key="namelist[0] + index" v-bind:namelist="namelist" />
             </ul>
           </li>
           <li id="rev-dep" v-if="this.package.reverseDepends.length">
@@ -73,7 +74,7 @@ export default {
               Reverse depends
             </span>
             <ul>
-              <package-dependency v-for="name in this.package.reverseDepends" :key="name" v-bind:name="name" />
+              <package-reverse-dependency v-for="name in this.package.reverseDepends" :key="name" v-bind:name="name" />
             </ul>
           </li>
         </ul>

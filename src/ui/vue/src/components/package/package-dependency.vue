@@ -4,18 +4,13 @@ import { Package } from '../../../src/common/package'
 export default {
   name: 'package-dependency',
   props: {
-    namelist: Array,
-    name: String
+    namelist: Array
   },
-  data: () => ({ package: null, pkglist: null, lastIndex: 0 }),
+  data: () => ({ pkglist: null, lastIndex: 0 }),
   mounted () {
     try {
-      if (this.namelist) {
-        this.pkglist = this.namelist.map(name => new Package(name))
-        this.lastIndex = this.namelist.length - 1
-      } else if (this.name) {
-        this.package = new Package(this.name)
-      }
+      this.pkglist = this.namelist.map(name => new Package(name))
+      this.lastIndex = this.namelist.length - 1
     } catch (e) {
       console.error(e)
     }
@@ -35,14 +30,6 @@ export default {
           {{ pkg.name }}
         </span>
         <span v-if="index < lastIndex">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-      </span>
-    </li>
-    <li v-else-if="this.package">
-      <router-link v-if="this.package.isAvailable" :to="{ name: 'package', params: { name: this.package.name }}">
-        {{ this.package.name }}
-      </router-link>
-      <span v-else>
-        {{ this.package.name }}
       </span>
     </li>
   </div>

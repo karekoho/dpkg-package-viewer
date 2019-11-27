@@ -11,9 +11,8 @@ const mapFields = (source, pkg) =>
       const field = line.split(':')
 
       if (field[0] === 'Depends') {
-        const deps = readDependencies(field[1])
-        self._dependencyList = deps
-        self._depends = new Set(deps.flat().map(name => (new Package(name, null, self)).name))
+        self._dependencyList = readDependencies(field[1])
+        self._depends = new Set(self._dependencyList.flat().map(name => (new Package(name, null, self)).name))
       } else if (field[0] === 'Description') {
         self._description = field[1].substring(1)
       }
@@ -53,7 +52,7 @@ class Package {
       self._revDepends.add(dependent.name)
     }
 
-    if (!isCached && (self._isAvailable || dependent instanceof Package)) { // Do not put whatever packages
+    if (!isCached && (self._isAvailable || dependent instanceof Package)) { // Do not cache packages that are not from index
       Package.instance.set(name, self)
     }
 

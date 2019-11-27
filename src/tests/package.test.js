@@ -1,7 +1,7 @@
 const { Package } = require('../common/package');
 
 test ('Package: dependency and reverse dependency', () => {
-  const input = [
+  [
     {
       name: 'a',
       src: "Depends: b, c, d\n",
@@ -42,12 +42,11 @@ test ('Package: dependency and reverse dependency', () => {
         rdeps: ['a', 'b']
       }
     }
-  ]
 
-  input.forEach(e => {
-      const p = new Package (e.name, e.src);
-      expect(p.depends).toEqual(e.expected.deps);
-      expect(p.reverseDepends).toEqual(e.expected.rdeps);
+  ].forEach(assert => {
+      const pkg = new Package (assert.name, assert.src);
+      expect(pkg.depends).toEqual(assert.expected.deps);
+      expect(pkg.reverseDepends).toEqual(assert.expected.rdeps);
     });
 
   expect(Package.instance.size).toBe(5);

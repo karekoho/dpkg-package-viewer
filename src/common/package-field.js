@@ -30,6 +30,6 @@ const stripVersion = nameAndVersion => {
 const readDependencies = field =>
   field.split(',')
     .map(a => a.split('|'))
-    .map(a => a.map(a => stripVersion(a).substring(1)))
-
+    .map(a => a.map(a => stripVersion(a).substring(1).trimRight()))
+  
 export { getField, getFieldValue, stripVersion, readDependencies }

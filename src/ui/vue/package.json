@@ -1,5 +1,6 @@
 {
-  "name": "vue",
+  "name": "dkg-viewer-ui-vue",
+  "author": "Kare Koho",
   "version": "0.1.0",
   "private": true,
   "scripts": {

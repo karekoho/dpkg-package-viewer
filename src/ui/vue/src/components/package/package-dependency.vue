@@ -1,5 +1,4 @@
 <script>
-
 import { Package } from '../../../src/common/package'
 
 export default {
@@ -26,25 +25,25 @@ export default {
 </script>
 
 <template>
-  <div>
-  <li v-if="this.pkglist">
-    <span v-for="(pkg, index) in this.pkglist" :key="pkg.name">
-      <router-link v-if="pkg.isAvailable" :to="{ name: 'package', params: { name: pkg.name }}">
-        {{ pkg.name }}
+  <div id="package-dependency">
+    <li v-if="this.pkglist">
+      <span v-for="(pkg, index) in this.pkglist" :key="pkg.name">
+        <router-link v-if="pkg.isAvailable" :to="{ name: 'package', params: { name: pkg.name }}">
+          {{ pkg.name }}
+        </router-link>
+        <span v-else>
+          {{ pkg.name }}
+        </span>
+        <span v-if="index < lastIndex">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      </span>
+    </li>
+    <li v-else-if="this.package">
+      <router-link v-if="this.package.isAvailable" :to="{ name: 'package', params: { name: this.package.name }}">
+        {{ this.package.name }}
       </router-link>
       <span v-else>
-        {{ pkg.name }}
+        {{ this.package.name }}
       </span>
-      <span v-if="index < lastIndex"> | </span>
-    </span>
-  </li>
-  <li v-else-if="this.package">
-    <router-link v-if="this.package.isAvailable" :to="{ name: 'package', params: { name: this.package.name }}">
-      {{ this.package.name }}
-    </router-link>
-    <span v-else>
-      {{ this.package.name }}
-    </span>
-  </li>
+    </li>
   </div>
 </template>

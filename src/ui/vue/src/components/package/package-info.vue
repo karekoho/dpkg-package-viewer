@@ -33,7 +33,7 @@ export default {
       try {
         if (this.indexSize > 0) {
           this.package = new Package(name)
-        } else { // Page refresh or url followed --> store is empty
+        } else { // Page refresh or url followed --> index is empty
           this.getPackages().then(() => { this.package = new Package(name) })
         }
       } catch (error) {
@@ -53,9 +53,9 @@ export default {
       <div v-if="this.package.isAvailable">
         <ul>
           <li>
-            <span class="field-name">Package</span>
-            <span> {{ this.package.name }}</span>
             <dl>
+              <dt><span class="field-name">Package</span><dt>
+              <dd>{{ this.package.name }}</dd>
               <dt><span class="field-name">Description</span></dt>
               <dd>{{ this.package.description }}</dd>
             </dl>
@@ -68,7 +68,7 @@ export default {
               <package-dependency v-for="namelist in this.package.dependencyList" :key="namelist[0]" v-bind:namelist="namelist" />
             </ul>
           </li>
-          <li v-if="this.package.reverseDepends.length">
+          <li id="rev-dep" v-if="this.package.reverseDepends.length">
             <span class="field-name">
               Reverse depends
             </span>
@@ -86,8 +86,11 @@ export default {
         </ul>
       </div>
     </div>
+
     <error v-else-if="this.error" v-bind:error="this.error" />
+
     <index-link />
+
   </div>
 
 </template>
@@ -95,5 +98,8 @@ export default {
 <style scoped>
   ul li span.field-name {
     font-weight: bold
+  }
+  li#rev-dep {
+    margin-top: 10px
   }
 </style>

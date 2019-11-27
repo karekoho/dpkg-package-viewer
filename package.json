@@ -1,7 +1,6 @@
 {
-  "name": "dpkg-package-viewer",
-  "version": "1.0.0",
-  "description": "Explore availlable Debian packages",
+  "name": "dpkg-viewer",
+  "version": "0.1.0",
   "main": "index.js",
   "directories": {
     "doc": "doc"

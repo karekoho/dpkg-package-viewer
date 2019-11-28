@@ -3,12 +3,12 @@ Browse dpkg packages found **/var/lib/dpkg/status**
 
 ## Requirements
 - Docker
-- Node.js version 8.9 or above, if building from source
 
 ## Usage
 ### Clone the repository
 ```
 git clone https://github.com/karekoho/dpkg-package-viewer.git
+cd dpkg-package-viewer
 ```
 ### Run the demo in two containers
 ```

@@ -25,4 +25,4 @@ Server is listening on http://localhost:8081
 ```
 docker-compose down
 ```
-Stops the containers
+Stops the containers.

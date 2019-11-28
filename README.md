@@ -12,7 +12,7 @@ git clone https://github.com/karekoho/dpkg-package-viewer.git
 ```
 ### Run the demo in two containers
 ```
-cd dpkg-package-viewer && docker-compose up -d
+docker-compose up -d
 ```
 Pulls down two images from Docker Hub and starts the containers.
 

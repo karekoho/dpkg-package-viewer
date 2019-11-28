@@ -1,33 +1,18 @@
 import { readDependencies } from './package-field'
 
 /**
- * Map information fields to a Package object
- * @param {String} source
- * @param {Package} pkg
- */
-const mapFields = (source, pkg) =>
-  source.split('\n')
-    .reduce((self, line) => {
-      const field = line.split(':')
-
-      if (field[0] === 'Depends') {
-        self._dependencyList = readDependencies(field[1])
-        self._depends = new Set(self._dependencyList.flat().map(name => (new Package(name, null, self)).name))
-      } else if (field[0] === 'Description') {
-        self._description = field[1].substring(1)
-      }
-
-      self._isAvailable = true // Package is parsed from source text, so it is availlable
-      return self
-    }, pkg)
-
-/**
  * The Package class
  */
 class Package {
   /**
-   * If package with the name already created, return existing instance.
+   * If package with the name already created, return an existing instance.
    * Otherwise return new instance.
+   *
+   * If called with Package (name, source, undefined)
+   *  --> try to parse the source text
+   *  --> if dependency found, set dependency = Package (name, undefined, this)
+   *    --> dependency sets caller as reverse dependency
+   *
    * @param {String} name Package name
    * @param {String} source Unparsed package information
    * @param {Package} dependent A package that depends on this one
@@ -101,6 +86,27 @@ class Package {
     return this._isAvailable === true
   }
 }
+
+/**
+ * Map information fields to a Package object
+ * @param {String} source
+ * @param {Package} pkg
+ */
+const mapFields = (source, pkg) =>
+  source.split('\n')
+    .reduce((self, line) => {
+      const field = line.split(':')
+
+      if (field[0] === 'Depends') {
+        self._dependencyList = readDependencies(field[1])
+        self._depends = new Set(self._dependencyList.flat().map(name => (new Package(name, null, self)).name))
+      } else if (field[0] === 'Description') {
+        self._description = field[1].substring(1)
+      }
+
+      self._isAvailable = true // Package is parsed from source text, so it is availlable
+      return self
+    }, pkg)
 
 /**
  * Cache instances of Package by name

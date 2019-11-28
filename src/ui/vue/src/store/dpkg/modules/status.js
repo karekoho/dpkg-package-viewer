@@ -19,7 +19,7 @@ const getters = {}
 // mutations
 const mutations = {
   /**
-   * Initialize the package index
+   * Set the package index
    * @param {Object} state
    * @param {Map} index
    */
@@ -27,7 +27,7 @@ const mutations = {
     state.index = index
   },
   /**
-   * Reset index
+   * Reset package index
    * @param {Map} index
    */
   [RESET_INDEX] ({ index }) {
@@ -37,19 +37,30 @@ const mutations = {
 
 // actions
 const actions = {
+  /**
+   * Fetch package index from server
+   * @param {Object} commit
+   * @returns {Promise}
+   */
   readIndex ({ commit }) {
-    const sort = index => Array.from(index.keys()).sort()
+    /**
+     * Sort ascending
+     * @param {Map} index
+     * @returns {Array}
+     */
+    const sortAsc = index => Array.from(index.keys()).sort()
 
-    if (state.index.size > 0) {
-      return sort(state.index)
+    if (state.index.size === 0) {
+      // Try to fetch packages
+      return readStatus('http://localhost:8081')
+        .then(index => {
+          commit(SET_INDEX, index)
+          return sortAsc(state.index)
+        }).catch(error => {
+          throw error // Actually useless catch
+        })
     }
-    return readStatus('http://localhost:8081') // TODO: read from config file of somekind
-      .then(index => {
-        commit(SET_INDEX, index)
-        return sort(state.index)
-      }).catch(error => {
-        throw error // Actually useless catch
-      })
+    return sortAsc(state.index)
   }
 }
 

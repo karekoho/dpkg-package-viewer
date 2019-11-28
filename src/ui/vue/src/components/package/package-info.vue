@@ -1,5 +1,5 @@
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import { Package } from '../../../src/common/package'
 import PackageDependency from './package-dependency'
 import PackageReverseDependency from './package-reverse-dependency'
@@ -23,20 +23,12 @@ export default {
     this.getPackage(to.params.name)
     next()
   },
-  computed: {
-    ...mapState('dpkg/status/', {
-      indexSize: state => state.index.size
-    })
-  },
   methods: {
     ...mapActions('dpkg/status/', { getPackages: 'readIndex' }),
     getPackage (name) {
       try {
-        if (this.indexSize > 0) {
-          this.package = new Package(name)
-        } else { // Page refresh or url followed --> index is empty
-          this.getPackages().then(() => { this.package = new Package(name) })
-        }
+        // Page may be refreshed or url followed, so ensure package index is not empty
+        this.getPackages().then(() => { this.package = new Package(name) })
       } catch (error) {
         this.error = error
         console.error(error)

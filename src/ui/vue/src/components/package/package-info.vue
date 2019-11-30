@@ -58,7 +58,7 @@ export default {
               Depends
             </span>
             <ul>
-              <package-dependency v-for="(namelist, index) in this.package.dependencyList" :key="namelist[0] + index" v-bind:namelist="namelist" />
+              <package-dependency v-for="(namelist, index) in this.package.depends" :key="namelist[0] + index" v-bind:namelist="namelist" />
             </ul>
           </li>
           <li id="rev-dep" v-if="this.package.reverseDepends.length">

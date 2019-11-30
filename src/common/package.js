@@ -31,10 +31,10 @@ class Package {
     } else if (dependent) {
       self._name = name
 
-      if (!self._revDepends) {
-        self._revDepends = new Set()
+      if (self._reverseDepends === undefined) {
+        self._reverseDepends = new Set()
       }
-      self._revDepends.add(dependent.name)
+      self._reverseDepends.add(dependent.name)
     }
 
     if (!isCached && (self._isAvailable || dependent instanceof Package)) { // Do not cache packages that are not from index
@@ -55,32 +55,25 @@ class Package {
    * @returns Package description
    */
   get description () {
-    return this._description || null
+    return typeof this._description // typeof this._description == 'string' ? this._description : null
   }
 
   /**
-   *  @returns Array of package dependencies
+   * @returns Array<Array<String>> of package dependencies with alternatives
    */
   get depends () {
-    return this._depends ? Array.from(this._depends.values()).sort() : []
+    return this._dependencyList instanceof Array ? this._dependencyList : []
   }
 
   /**
-   * @returns Array<Array> of package dependencies with alternatives
-   */
-  get dependencyList () {
-    return this._dependencyList ? this._dependencyList : [[]]
-  }
-
-  /**
-   * @returns Array of package reverse dependencies
+   * @returns Array<String> of package reverse dependencies
    */
   get reverseDepends () {
-    return this._revDepends ? Array.from(this._revDepends.values()).sort() : []
+    return this._reverseDepends instanceof Set ? Array.from(this._reverseDepends.values()).sort() : []
   }
 
   /**
-   * @returns Package is known by the system, i.e. is listed /var/lib/dpkg/status
+   * @returns Package is known by the system, i.e. is listed in /var/lib/dpkg/status
    */
   get isAvailable () {
     return this._isAvailable === true

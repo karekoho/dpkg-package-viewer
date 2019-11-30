@@ -55,7 +55,7 @@ class Package {
    * @returns Package description
    */
   get description () {
-    return typeof this._description // typeof this._description == 'string' ? this._description : null
+    return typeof this._description === 'string' ? this._description : null
   }
 
   /**

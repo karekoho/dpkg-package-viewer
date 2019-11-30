@@ -1,7 +1,6 @@
 node_modules
-src/ui/vue/src/common
-src/ui/vue/src/common_link
 .DS_Store
 *.code-workspace
 package-lock.json
 src/ui/vue/REPO_ROOT
+src/ui/vue/src/common/

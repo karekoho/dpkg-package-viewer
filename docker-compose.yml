@@ -1,13 +1,14 @@
 version: '3'
 services:
   dpkg-viewer-client:
-    # build: .
-    image: "karek/dpkg-viewer-client"
+    # build: src/ui/vue # FIXME: relative paths wrong
+    image: "karek/dpkg-viewer:client-vue"
     ports:
       - "8080:80"
     depends_on:
       - "dpkg-viewer-server"
   dpkg-viewer-server:
-    image: "karek/dpkg-viewer-server"
+    # build: .
+    image: "karek/dpkg-viewer:server"
     ports:
-      - "8081:8081"
+      - "5000:5000"

@@ -52,7 +52,7 @@ const actions = {
 
     if (state.index.size === 0) {
       // Try to fetch packages
-      return readStatus('http://localhost:8081')
+      return readStatus('http://localhost:5000')
         .then(index => {
           commit(SET_INDEX, index)
           return sortAsc(state.index)

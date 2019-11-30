@@ -24,7 +24,7 @@ app.get('/', (request, response) => {
   })
 });
 
-const port = process.argv.length > 2 ? process.argv[2] : 8081;
+const port = process.argv.length > 2 ? process.argv[2] : 5000;
 
 const server = app.listen(port, () => {
    const port = server.address().port

@@ -1,1 +1,1 @@
-docker build -t karek/dpkg-viewer-server .
+docker build -t karek/dpkg-viewer:server .

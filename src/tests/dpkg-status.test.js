@@ -10,7 +10,7 @@ test ('createIndex: map size 2', () => {
 });
 
 test('readStatus: map size 701', () => {
-  readStatus('http://localhost:8081')
+  readStatus('http://localhost:5000')
     .then(index => {
       expect(index.size).toBe(411)
     }).catch(e => {

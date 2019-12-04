@@ -14,13 +14,12 @@ const createIndex = status =>
         return pkgMap
       }
 
-      const name = getFieldValue(getField(pkgFields))
-      return pkgMap.set(name, new Package(name, pkgFields))
+      return pkgMap.add((new Package(getFieldValue(getField(pkgFields)), pkgFields)).name)
     } catch (e) { // Dismiss any errors when parsing package fields
       console.error(e)
       return pkgMap
     }
-  }, new Map())
+  }, new Set())
 
 /**
  * Read package status, e.g. /var/lib/dpkg/status

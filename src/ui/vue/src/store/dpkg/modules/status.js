@@ -10,7 +10,7 @@ export const RESET_INDEX = '1'
  */
 // initial state
 const state = {
-  index: new Map() // List of unique packages, Map<Package>
+  index: new Set() // List of unique packages, Map<Package>
 }
 
 // getters
@@ -28,10 +28,10 @@ const mutations = {
   },
   /**
    * Reset package index
-   * @param {Map} index
+   * @param {Set} index
    */
   [RESET_INDEX] ({ index }) {
-    index = new Map()
+    index = new Set()
   }
 }
 
@@ -56,8 +56,6 @@ const actions = {
         .then(index => {
           commit(SET_INDEX, index)
           return sortAsc(state.index)
-        }).catch(error => {
-          throw error // Actually useless catch
         })
     }
     return sortAsc(state.index)

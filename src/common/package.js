@@ -1,4 +1,4 @@
-import { readDependencies } from './package-field'
+import { readDependencies, getFieldValue } from './package-field'
 
 /**
  * The Package class
@@ -94,7 +94,7 @@ const mapFields = (source, pkg) =>
         self._dependencyList = readDependencies(field[1])
         self._depends = new Set(self._dependencyList.flat().map(name => (new Package(name, null, self)).name))
       } else if (field[0] === 'Description') {
-        self._description = field[1].substring(1)
+        self._description = getFieldValue(field)
       }
 
       self._isAvailable = true // Package is parsed from source text, so it is availlable

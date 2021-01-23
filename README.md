@@ -1,5 +1,5 @@
-# dpkg-package-viewer (demo)
-Browse dpkg packages found **/var/lib/dpkg/status**
+# Debian package browser (demo)
+Browse Debian packages and dependencies listed in **/var/lib/dpkg/status**
 
 ## Requirements
 - Docker

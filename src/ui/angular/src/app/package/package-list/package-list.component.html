@@ -1,0 +1,9 @@
+<h3>{{ packages.length }} packages</h3>
+
+<ul>
+  <li *ngFor="let package of packages">
+    <a [title]="package" routerLink="/package/{{ package }}">
+      {{ package }}
+    </a>
+  </li>
+</ul>

@@ -1,0 +1,42 @@
+
+<h3>{{ package.name }}</h3>
+<div *ngIf="package.isAvailable; else notAvaillable">
+  <ul>
+    <li>
+      <dl>
+        <dt><span class="field-name">Package</span><dt>
+        <dd>{{ package.name }}</dd>
+        <dt><span class="field-name">Description</span></dt>
+        <dd>{{ package.description }}</dd>
+      </dl>
+    </li>
+    <li *ngIf="package.depends.length">
+      <span class="field-name">
+        Depends
+      </span>
+      <ul *ngIf="package.depends.length">
+        <app-package-dependency *ngFor="let dependency of package.depends"
+          [name]="dependency">dependency
+        </app-package-dependency>
+      </ul>
+    </li>
+    <li *ngIf="package.reverseDepends.length">
+      <span class="field-name">
+        Reverse depends
+      </span>
+      <ul *ngIf="package.reverseDepends.length">
+        <app-package-dependency *ngFor="let dependency of package.reverseDepends"
+          [name]="dependency">dependency
+        </app-package-dependency>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<ng-template #notAvaillable>Not availlable</ng-template>
+
+<div style="margin-top: 25px;">
+  <a routerLink="/">
+    Back to index
+  </a>
+</div>

@@ -20,7 +20,7 @@
         </app-package-dependency>
       </ul>
     </li>
-    <li *ngIf="package.reverseDepends.length">
+    <li *ngIf="package.reverseDepends.length" style="margin-top: 5px;">
       <span class="field-name">
         Reverse depends
       </span>
@@ -33,7 +33,9 @@
   </ul>
 </div>
 
-<ng-template #notAvaillable>Not availlable</ng-template>
+<ng-template #notAvaillable>
+  <p>Not availlable</p>
+</ng-template>
 
 <div style="margin-top: 25px;">
   <a routerLink="/">

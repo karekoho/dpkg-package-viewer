@@ -5,7 +5,7 @@ const { getField, getFieldValue } = require('./package-field')
 /**
  * Create package index
  * @param {String} status
- * @returns {Map}
+ * @returns {Set}
  */
 const createIndex = status =>
   status.split('\n\n').reduce((pkgMap, pkgFields) => {

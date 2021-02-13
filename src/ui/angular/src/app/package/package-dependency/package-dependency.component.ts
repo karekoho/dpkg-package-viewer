@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-// import { Package } from '../../../../../../../src/common/package';
 
 @Component({
   selector: 'app-package-dependency',

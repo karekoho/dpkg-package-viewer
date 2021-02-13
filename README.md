@@ -17,7 +17,9 @@ docker-compose up -d
 Pulls down two images from Docker Hub and starts the containers.
 
 
-Client is listening on http://localhost:8080
+Vue.js client is listening on http://localhost:8080
+
+Angular client is listening on http://localhost:8081
 
 Server is listening on http://localhost:5000
 

@@ -5,8 +5,8 @@ import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators'
 import { map } from 'rxjs/operators';
 
-import { createIndex } from '../../../../../common/dpkg-status';
-import { Package } from '../../../../../common/package';
+import { createIndex } from '../../common/dpkg-status';
+import { Package } from '../../common/package';
 
 @Injectable({
   providedIn: 'root'

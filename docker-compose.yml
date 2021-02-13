@@ -1,11 +1,19 @@
 version: '3'
 services:
-  dpkg-viewer-client:
+  dpkg-viewer-client-vue:
     # build: src/ui/vue # FIXME: relative paths wrong
     image: "karek/dpkg-viewer:client-vue"
     # image: "public.ecr.aws/d4p3j5f7/karekoho:dpkg-viewer-client-vue"
     ports:
       - "8080:80"
+    depends_on:
+      - "dpkg-viewer-server"
+  dpkg-viewer-client-angular:
+    # build: src/ui/angular # FIXME: relative paths wrong
+    image: "karek/dpkg-viewer:client-angular"
+    # image: "public.ecr.aws/d4p3j5f7/karekoho:dpkg-viewer-client-angular"
+    ports:
+      - "8081:80"
     depends_on:
       - "dpkg-viewer-server"
   dpkg-viewer-server:

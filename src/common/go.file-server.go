@@ -25,12 +25,38 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func textHandler(w http.ResponseWriter, r *http.Request) {
+	/* 
+	if r.Method == http.MethodGet {
+		io.WriteString(w, "This is a get request")
+	} else if r.Method == http.MethodPost {
+		io.WriteString(w, "This is a post request")
+	} else {
+		io.WriteString(w, "This is a " + r.Method + " request")
+	} 
+	
+	405 Method Not Allowed
+
+	The HyperText Transfer Protocol (HTTP) 405 Method Not Allowed response status code indicates that the server knows the request method, 
+	but the target resource doesn't support this method.
+
+	The server must generate an Allow header field in a 405 status code response. 
+	The field must contain a list of methods that the target resource currently supports
+
+	Example:
+	Allow: GET, POST, HEAD
+
+	Set response headers:
+	https://golangbyexample.com/set-resposne-headers-http-go/
+	*/
+
 	status, err := os.ReadFile(statusFile)
+
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
 	}
-	fmt.Fprint(w, string(status))
+	
+	w.Write(status)
 }
 
 func jsonHandler(w http.ResponseWriter, r *http.Request) {

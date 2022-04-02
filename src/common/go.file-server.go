@@ -7,8 +7,10 @@ import (
 	"os"
 )
 
+const statusFile string = "./doc/status.real.txt";
+
 func main() {
-	addr := "localhost:8000"
+	var addr string = "localhost:8000"
 
 	http.HandleFunc("/", defaultHandler)     
 	http.HandleFunc("/text", textHandler)
@@ -23,7 +25,7 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func textHandler(w http.ResponseWriter, r *http.Request) {
-	status, err := os.ReadFile("./doc/status.real.txt")
+	status, err := os.ReadFile(statusFile)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return

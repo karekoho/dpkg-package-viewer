@@ -7,10 +7,15 @@ import (
 	"os"
 )
 
-const statusFile string = "./doc/status.real.txt";
-
 func main() {
-	var addr string = "localhost:8000"
+
+	var usage string = fmt.Sprintf("Usage: %s address file", os.Args[0])
+
+	if len(os.Args) < 3 {
+		log.Fatal(usage)
+	}
+
+	var addr string = os.Args[1]
 
 	http.HandleFunc("/", defaultHandler)     
 	http.HandleFunc("/text", textHandler)
@@ -28,8 +33,6 @@ func textHandler(w http.ResponseWriter, r *http.Request) {
 	/* 
 	if r.Method == http.MethodGet {
 		io.WriteString(w, "This is a get request")
-	} else if r.Method == http.MethodPost {
-		io.WriteString(w, "This is a post request")
 	} else {
 		io.WriteString(w, "This is a " + r.Method + " request")
 	} 
@@ -47,8 +50,14 @@ func textHandler(w http.ResponseWriter, r *http.Request) {
 
 	Set response headers:
 	https://golangbyexample.com/set-resposne-headers-http-go/
+
+	See:
+	https://github.com/gorilla/mux
+
+	for HTTP router and URL matcher
 	*/
 
+	var statusFile string = os.Args[2]
 	status, err := os.ReadFile(statusFile)
 
 	if err != nil {
@@ -60,5 +69,5 @@ func textHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func jsonHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "TODO: json handler")
+	fmt.Fprint(w, "TODO: json handler\n")
 }

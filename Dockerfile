@@ -1,21 +1,26 @@
-# FROM node:12
-FROM node:14
+FROM ubuntu:latest
 
 # Create app directory
 WORKDIR /app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
-
-# RUN npm install
-# If you are building your code for production
-RUN npm ci --only=production
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install curl -y
 
 # Bundle app source
 COPY src/common ./src/common/
 COPY doc ./doc/
 
-EXPOSE 8081
-CMD [ "node", "./src/common/file-server.js" ]
+#Build dir
+RUN mkdir ./bin
+
+# Install go
+RUN curl https://dl.google.com/go/go1.18.linux-amd64.tar.gz -o go1.18.linux-amd64.tar.gz
+RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz
+ENV PATH "$PATH:/usr/local/go/bin"
+
+# Build server
+RUN go build -v -o ./bin/file-server ./src/common/go.file-server.go
+
+EXPOSE 5000
+CMD [ "./bin/file-server", ":8000", "/var/lib/dpkg/status" ]

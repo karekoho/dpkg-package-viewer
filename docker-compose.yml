@@ -21,4 +21,4 @@ services:
     image: "karek/dpkg-viewer:server"
     # image: "public.ecr.aws/d4p3j5f7/karekoho:dpkg-viewer-server"
     ports:
-      - "5000:5000"
+      - "5000:8000"
